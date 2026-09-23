@@ -1,0 +1,27 @@
+---
+title: "Brain Data analysis"
+author: "Sarah"
+---
+
+Using the data on the distribution of proteins in various regions of the mammalian brain obtained from the Human Protein Atlas project, we counted the total number of genes with regionally elevated expression (higher than in the rest of the brain).  We concentrated the analysis on genes in the forebrain of humans, pigs and mice, namely the cerebral cortex, basal ganglia, thalamus and hypothalamus
+
+**Human**
+```{r}
+MeasuredValues_human<-c(180,83,57,110)
+print(sum(MeasuredValues_human))
+```
+
+**Pigs**
+```{r}
+MeasuredValues_pig<-c(109,157,31,45)
+print(sum(MeasuredValues_pig))
+```
+
+**Mice**
+```{r}
+MeasuredValues_mice<-c(55,185,60,98)
+print(sum(MeasuredValues_mice))
+```
+
+Humans had the highest number of genes with regionally elevated expression.
+
