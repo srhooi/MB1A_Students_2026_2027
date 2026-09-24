@@ -2,7 +2,8 @@
 title: "prac1_exercises"
 format:html
 ---
-
+library(tidyverse)
+library(gt)
 Round pi to the nearest whole number
 ```{r}
 round_pi<-round(3.14156)
@@ -74,4 +75,147 @@ print(round(3.5))
 
 ```
 
+Part 4
+
+Cell experiment dataset
+```{r}
+
+CellIds<-c("CX1","CX2")
+Treatment<-c(TRUE,FALSE)
+n_cells_before<-c(5415,8123)
+n_cells_after<-c(1432,7543)
+```
+
+Isolate fourth variable
+```{r}
+all_my_pets <- c("dog", "horse", "guinea pig", "chicken", "cat")
+fourth_pet<-all_my_pets[4]
+print(fourth_pet)
+```
+
+Vectorisation
+```{r}
+x <- c(2, -4, 6, -2)
+x * 2 #gives 4,-8,12,-4
+x > 5 # gives FALSE FALSE TRUE FALSE
+sum(x)
+abs(x)
+```
+
+Dataframes
+```{r}
+library(tidyverse)
+library(gt)
+# You should already have this part
+cell_id_1 <- "CX1"
+cell_id_2 <- "CX2"
+
+treated_1 <- TRUE
+treated_2 <- FALSE
+
+n_before_1 <- 5415
+n_before_2 <- 8123
+
+n_after_1 <- 1432
+n_after_2 <- 7543
+
+# Combine these into vectors
+cell_id <- c(cell_id_1, cell_id_2)
+treated <- c(treated_1, treated_2)
+n_before <- c(n_before_1, n_before_2)
+n_after <- c(n_after_1, n_after_2)
+
+ExperimentData<-tibble(
+  cellID=cell_id,
+  treatment=treated,
+  numBefore=n_before,
+  numAfter=n_after
+)
+gt(ExperimentData)
+```
+
+We use UKHSA data on rhinovirus infections over time.
+```{r}
+library(tidyverse)
+library(gt)
+#weather <- read_csv("data/weather_data.csv")
+
+rhinovirus <- read_csv("data/ukhsa-chart-download-rhinovirus.csv")
+
+gt(head(rhinovirus))
+```
+
+Import data via API
+```{r}
+library("httr2")
+url <- "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/gastrointestinal/topics/C-difficile/geography_types/Nation/geographies/England/metrics/c-difficile_cases_countsByOnsetType"
+url <- paste0(url, "?page_size=365")
+print(url)
+api_request <- request(url)
+response <- req_perform(api_request)
+json_response <- resp_body_json(response) #read json object
+str(json_response, max.level = 1)
+results_df <- bind_rows(json_response$results)
+gt(head(results_df))
+print(unique(pull(results_df, stratum)))
+print(unique(pull(results_df, sex)))
+print(unique(pull(results_df, age)))
+filt <- filter(results_df, stratum == "Total cases")
+gt(filt)
+
+# Assign URL
+url <- "https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/gastrointestinal/topics/C-difficile/geography_types/Nation/geographies/England/metrics/c-difficile_cases_countsByOnsetType"
+
+# Add page size
+url <- paste0(url, "?page_size=365")
+
+# Set up the request
+api_request <- request(url)
+
+# Perform the request
+response <- req_perform(api_request)
+
+# Convert to JSON
+json_response <- resp_body_json(response)
+
+# Convert to a data frame
+results_df <- bind_rows(json_response$results)
+
+# Filter to a single value of stratum
+filt <- filter(results_df, stratum == "Total cases")
+
+# Display
+gt(filt)
+str(filt)
+filt$Date<-as.Date(filt$date)
+ggplot(filt, aes(
+  x = Date,
+  y = metric_value
+)) +
+  geom_line()
+```
+
+Plot data
+```{r}
+library("httr2")
+rhinovirus <- read_csv("data/ukhsa-chart-download-rhinovirus.csv")
+
+ggplot(rhinovirus, aes(
+  x = date,
+  y = metric_value
+)) +
+  geom_line(color = "red") +
+  xlab("Date") +
+  ylab("Case counts") +
+  ggtitle("Rhinovirus case counts")
+rhinovirus <- read_csv("data/ukhsa-chart-download-rhinovirus.csv")
+str(rhinovirus)
+ggplot(rhinovirus, aes(
+  x = date,
+  y = metric_value
+)) +
+  geom_line(color="blue")+
+  xlab("Date")+
+  ylab("Percentage PCR positive")
+```
 
