@@ -1,0 +1,77 @@
+---
+title: "prac1_exercises"
+format:html
+---
+
+Round pi to the nearest whole number
+```{r}
+round_pi<-round(3.14156)
+print(round_pi)
+```
+
+Round to two decimal places through the digits argument
+```{r}
+round(3.14156,digits=2)
+```
+
+Sequence of numbers, with the arguments in the following order: from, to and by
+```{r}
+print(seq(1, 10, 2))
+```
+
+Rep function repeats the numbers
+```{r}
+print(rep(5, 7))
+print(rep(x=5, times=7))
+```
+
+Variables:
+```{r}
+whatsmynumber <- 1
+whatsmynumber <- 5
+```
+The variable whatsmynumber now corresponds to the number 5 
+
+```{r}
+char_var<-"MathBio"
+num_var<-15
+log_var<-TRUE
+print(paste("My character variable is",char_var))
+print(paste("My numeric variable is",num_var))
+print(paste("My logical variable is",log_var))
+```
+
+Experiment to test radiation effect analysis
+```{r}
+CellID1<-"CX1"
+CellID2<-"CX2"
+TreatCell1_bool<-TRUE
+TreatCell2_bool<-FALSE
+NumBefore1<-5415
+NumAfter1<-1432
+NumBefore2<-8123
+NumAfter2<-7543
+
+```
+
+Quirks of R:
+```{r}
+print(TRUE + TRUE) #Answer is 2
+print(TRUE + FALSE) # Answer is 1
+print(5 + TRUE) #Answer is 6
+
+x <- NA
+print(x == NA)
+print(is.na(x)) #Answer is TRUE
+
+x <- 0 / 0 
+print(x) #Answer is NaN
+print(is.na(x)) #Answer is TRUE
+print(is.nan(x)) #Answer is TRUE
+
+print(round(2.5)) #Round does round to even, so 2.5 becomes 2 and 3.5 becomes 4
+print(round(3.5)) 
+
+```
+
+
