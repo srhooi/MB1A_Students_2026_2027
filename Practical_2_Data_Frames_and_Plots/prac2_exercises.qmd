@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Practical 2 exercises"
 editor: visual
 format: html 
 ---

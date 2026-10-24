@@ -1,5 +1,5 @@
 ---
-title: "worked_example"
+title: "Bird migration worked example"
 editor: visual
 format: html 
 ---
