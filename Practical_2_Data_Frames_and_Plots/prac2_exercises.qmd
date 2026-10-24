@@ -1,0 +1,115 @@
+---
+title: "Untitled"
+editor: visual
+format: html 
+---
+
+The research is conducted on songbird migration patterns. They found that:
+
+-   In **spring**, the birds migrate north from their wintering grounds in West Africa. After crossing the Sahara, they stop over near the Mediterranean before continuing to their breeding sites in the north (Fig. 1B in the paper).
+
+-   In **autumn**, the birds take a **much longer route**. They migrate south from their breeding sites, but — regardless of how far east their breeding site is — they all travel via the Iberian Peninsula (Spain and Portugal) before following the west coast of Africa to their wintering grounds (Fig. 1A in the paper). Why they take this detour is **currently unknown**.
+
+-   As a result, spring migration routes are shorter and more variable than autumn migration routes.
+
+Figure 1 shows the nonbreeding areas and migratory routes of pied flycatchers. Figure 1A and 1B have the longitude on the x axis and latitude on the y axis
+
+The locations of the breeding populations are depicted in different colours.
+
+-   Orange - Spain
+-   Purple - Norway
+-   Blue - Sweden
+-   Pink - Britain
+-   Red - Netherlands
+-   Turquoise - western Russia
+-   Green - Ural
+-   Dark green - Siberia
+
+The shapes represent different locations.
+
+-   Circles - Breeding sites
+-   Filled downward triangle - Iberian peninsula stopover during spring migration
+-   Open triangle - Westernmost migration location during spring migration
+-   Squares - Nonbreeding areas
+-   Filled upward triangle - Post-Saharan crossing stopover during autumn migration
+
+To produce this plot, we need a single data frame which contains all of the information in the plot:
+
+-   Breeding site
+-   Longitude and latitude of breeding site
+-   Longitude and latitude of winter non-breeding site
+-   Longitude and latitude of post-Saharan stopover
+-   Longitude and latitude of the Iberian stopover
+-   Longitude and latitude of the westernmost location
+
+```{r}
+library(tidyverse)
+Pied<-read.csv("./data/breeding_site_locations.csv")
+head(Pied)
+MoscowCoords<-Pied[which(Pied$Site=="Moscow"),c("Longitude","Latitude")]
+print(paste0("the longitude of Moscow is:",MoscowCoords$Longitude)) # 36.7
+```
+
+Now we learn about the pipe (\|\>) symbol
+
+```{r}
+my_numbers <- c(2, 4, 6, 8)
+
+sum(my_numbers)
+
+my_numbers <- c(2, 4, 6, 8)
+
+my_numbers |> sum()
+
+my_numbers <- c(2, 4, 6, 8)
+
+print(my_numbers |>
+  sum() |>
+  sqrt())
+
+my_numbers <- c(2, 4, 6, 8)
+
+print(my_numbers |>
+  sum() |>
+  sqrt() |>
+  round())
+my_numbers <- c(2, 4, 6, 8)
+
+my_result <- my_numbers |>
+  sum() |>
+  sqrt() |>
+  round()
+
+print(my_result)
+```
+
+Exercise using the pipe operator:
+```{r}
+input_vec <- c(5, -10, 4, -3)
+
+final_result<-input_vec |>
+  mean()|>
+  abs() |>
+  round()
+print(final_result)
+```
+
+
+Different comparison operators exercise:
+```{r}
+y<-12
+print(paste0("Is y equal to 7? ",y==7))
+print(paste0("Is y less than 15? ",y<15))
+print(paste0("Is y greater than 20? ",y>20))
+print(paste0("Is y less than or equal to 12?", y<=12))
+```
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,102 @@
+---
+title: "worked_example"
+editor: visual
+format: html 
+---
+
+```{r}
+library(gt)
+library(tidyverse)
+library(maps)
+
+```
+
+```{r}
+BreedingSites<-read.csv("./data/breeding_site_locations.csv")
+gt(BreedingSites)
+print(paste0("The column names are ",
+             paste(colnames(BreedingSites),collapse = ",")))
+#summarise the data
+glimpse(BreedingSites)
+
+print(nrow(BreedingSites))
+print(ncol(BreedingSites))
+print(dim(BreedingSites))
+```
+
+We now move on to the data about the stopover locations and other migration sites
+
+```{r}
+Migratory<-read.csv("./data/migratory_connectivity_dataset.csv")
+gt(head(Migratory))
+glimpse(Migratory)
+print(paste0("There are ",nrow(Migratory)," rows and ",ncol(Migratory)," columns"))
+glimpse(Migratory$Tag) #character
+glimpse(Migratory$Birth) #integer
+```
+
+
+Now we filter the dataset to the relevant columns.
+
+```{r}
+BreedingSites<-read.csv("./data/breeding_site_locations.csv")
+bird_breeding_selected <- BreedingSites |>
+  select(Site, Longitude, Latitude) |>
+  distinct() |> #select unique rows
+  rename(Breeding_Longitude = Longitude, Breeding_Latitude = Latitude)
+
+gt(bird_breeding_selected)
+
+Migratory<-read.csv("./data/migratory_connectivity_dataset.csv")
+bird_migration_selected<-Migratory |>
+  select(Site,winterLongitude,winterLatitude,pslon,pslat,
+         iblon,iblat,awestlon,awestlat)|>
+  distinct()|>
+  rename(
+    Winter_Longitude=winterLongitude,
+    Winter_Latitude=winterLatitude,
+    Stopover_Longitude=pslon,
+    Stopover_Latitude=pslat,
+    Iberian_Longitude=iblon,
+    Iberian_Latitude=iblat,
+    Westmost_Longitude=awestlon,
+    Westmost_Latitude=awestlat
+  )
+gt(bird_migration_selected)
+
+```
+
+Now we filter the data frames
+```{r}
+bird_breeding_dartmoor <- bird_breeding_selected |> filter(Site == "Dartmoor")
+
+gt(bird_breeding_dartmoor)
+bird_breeding_not_dartmoor <- bird_breeding_selected |> filter(Site != "Dartmoor")
+
+gt(bird_breeding_not_dartmoor)
+
+bird_breeding_long_10 <- bird_breeding_selected |> filter(Breeding_Longitude > 10)
+
+gt(bird_breeding_long_10)
+```
+
+We filter out Spain from the data as there is no post-Saharan stopover data in this location
+
+```{r}
+bird_breeding_exc <- bird_breeding_selected |> filter(Site != "Spain")
+gt(bird_breeding_exc)
+
+bird_migration_exc <-bird_migration_selected |> filter(Site !="Spain")
+gt(bird_migration_exc)
+```
+
+
+
+
+
+
+
+
+
+
+
