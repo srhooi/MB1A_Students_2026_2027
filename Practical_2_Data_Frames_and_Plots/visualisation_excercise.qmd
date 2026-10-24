@@ -11,7 +11,8 @@ library(janitor)
 library(lubridate)
 ```
 
-Link to dataset: https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study4901146318
+Link to dataset: 
+https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study4901146318
 
 Remember as_date is to convert POSIXct object to Date format
 
