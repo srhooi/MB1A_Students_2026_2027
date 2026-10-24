@@ -3,6 +3,8 @@ title: "Practical 2 exercises"
 editor: visual
 format: html 
 ---
+Link to practical:
+https://uoc-mb1a.github.io/MB1A_Practicals_2026_2027/materials/Practical_2_Data_Frames_and_Plots/02-04_visualisation_exercise.html
 
 The research is conducted on songbird migration patterns. They found that:
 
