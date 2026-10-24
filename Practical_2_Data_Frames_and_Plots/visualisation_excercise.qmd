@@ -1,0 +1,113 @@
+---
+title: "Visualisation exercise"
+editor: visual
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(gt)
+library(janitor)
+library(lubridate)
+```
+
+Link to dataset: https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study4901146318
+
+Remember as_date is to convert POSIXct object to Date format
+
+```{r}
+as.POSIXct("2026-10-24 14:30:00")
+
+as_date(x)
+# "2026-10-24"
+as.Date(x)       # Base R
+lubridate::as_date(x)  # lubridate
+
+format(as.Date(x), "%d/%m/%Y")
+# "24/10/2026"
+
+as.Date(x, tz = "Europe/London")
+```
+
+
+```{r}
+locations <- read_csv("./data/White-bearded_wildebeest_2017_2021.csv") |>
+  clean_names() |>
+  mutate(date = as_date(timestamp))|>
+  select(date,individual_local_identifier,
+         location_long,location_lat)
+head(locations)
+```
+
+```{r}
+locations_grouped<-locations|>
+  group_by(individual_local_identifier,date)|>
+  summarise(
+    Longitude=median(location_long,na.rm=TRUE),
+    Latitude=median(location_lat,na.rm=TRUE)
+  )
+head(locations_grouped)
+```
+
+```{r}
+min_lon_wb <- locations_grouped |>
+  pull(Longitude) |>
+  min()
+
+print(min_lon_wb)
+max_lon_wb <- locations_grouped |>
+  pull(Longitude) |>
+  max()
+
+print(max_lon_wb)
+
+min_lat_wb <- locations_grouped |>
+  pull(Latitude) |>
+  min()
+
+print(min_lat_wb)
+
+max_lat_wb <- locations_grouped |>
+  pull(Latitude) |>
+  max()
+
+print(max_lat_wb)
+
+```
+
+```{r}
+ggplot(locations_grouped,aes(x=Longitude,y=Latitude,
+                             colour=individual_local_identifier))+
+  geom_point(size=3)+
+  annotation_borders(linewidth = 0.2) +
+  coord_quickmap(
+    xlim = c(min_lon_wb - 0.1, max_lon_wb + 0.1),
+    ylim = c(min_lat_wb - 0.1, max_lat_wb + 0.1)
+  )+
+  scale_color_brewer(palette = "Set3") +
+  ggtitle("White-bearded wildebeest movement - \nGreater Mara Ecosystem (2017-2021)")+
+  xlab("Longitude (°)") +
+  ylab("Latitude (°)") +
+  theme_minimal()
+```
+
+```{r}
+
+library(colorspace)
+ggplot(locations_grouped,aes(x=Longitude,y=Latitude,
+                             colour=individual_local_identifier))+
+    geom_point(size=3)+
+    annotation_borders(linewidth = 0.2) +
+    coord_quickmap(
+        xlim = c(min_lon_wb - 0.1, max_lon_wb + 0.1),
+        ylim = c(min_lat_wb - 0.1, max_lat_wb + 0.1)
+    )+
+    scale_colour_discrete_qualitative(
+        palette = "Pastel 1",
+        nmax = 12
+    )+
+    ggtitle("White-bearded wildebeest movement - \nGreater Mara Ecosystem (2017-2021)")+
+    xlab("Longitude (°)") +
+    ylab("Latitude (°)") +
+    theme_minimal()
+```
