@@ -84,6 +84,7 @@ print(my_result)
 ```
 
 Exercise using the pipe operator:
+
 ```{r}
 input_vec <- c(5, -10, 4, -3)
 
@@ -94,8 +95,8 @@ final_result<-input_vec |>
 print(final_result)
 ```
 
-
 Different comparison operators exercise:
+
 ```{r}
 y<-12
 print(paste0("Is y equal to 7? ",y==7))
@@ -104,12 +105,48 @@ print(paste0("Is y greater than 20? ",y>20))
 print(paste0("Is y less than or equal to 12?", y<=12))
 ```
 
+Joining dataframes:
 
+```{r}
+df_dept <- read_csv("./data/depts.csv")
+df_score <- read_csv("./data/scores.csv")
+gt(df_dept);gt(df_score);
+full_join_example <- full_join(df_dept, df_score)
+gt(full_join_example)
 
+inner_join_example <- inner_join(df_dept, df_score)
+gt(inner_join_example)
 
+left_join_example <- left_join(df_dept, df_score)
+gt(left_join_example)
 
+right_join_example <- right_join(df_dept, df_score)
+gt(right_join_example)
+```
 
+Intermediate exercise:
 
+```{r}
+birds <- tibble(
+  Bird = c("Robin", "Robin", "Blackbird"),
+  Mass = c(18, 19, 100)
+)
 
+observations <- tibble(
+  Bird = c("Robin", "Robin", "Robin", "Blackbird"),
+  Count = c(4, 7, 2, 5)
+)
+inner_join(birds, observations, by = "Bird") #7rows
+```
 
+Filtering datasets:
 
+```{r}
+gt(df_dept)
+keep_depts <- c("Maths", "English")
+
+df_eng_maths <- df_dept |>
+  filter(Department %in% keep_depts)
+
+gt(df_eng_maths)
+```
